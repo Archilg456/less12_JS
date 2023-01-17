@@ -1,5 +1,7 @@
 'use strict'
 
+
+//  Validation
 let forRegistration = document.getElementById('form__reg');
 let age = false;
 
@@ -15,20 +17,40 @@ forRegistration.addEventListener('submit', function(event){
         errors.username = 'Username field is invalid ';
     }
 
-    if ( usernameField == "") {
+    if ( usernameField == " ") {
         errors.username = "Username Can Not Be empty";
     }
 
-    let password1 = document.getElementById('passw1').value;
-    let password2 = document.getElementById('passw2').value;
+    let password1 = document.getElementById("passw1").value;
+    let password2 = document.getElementById("passw2").value;
+    let minRequirement = document.getElementById("passw1");
+    let passError = document.getElementById("error_mypassword");
+  
+    minRequirement.addEventListener("keyup", function () {
+      let passValue = minRequirement.value;
+      let passPattern = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+      if (passValue == "") {
+        passError.innerText = "Wrong Password";
+        passError.style.color = "brown";
+        minRequirement.style.border = "2px solid brown"; 
+      } else if (!passValue.match(passPattern)) {
 
+        passError.innerText = " Password must contain at least 8 characters, one uppercase character, one lowercase character and one number ";
+        passError.style.color = "brown";
+        minRequirement.style.border = "2px solid brown";
+      } else {
+        passError.innerText = "";
+        minRequirement.style.border = "2px solid green";
+      }
+    });
+  
     if (password1 == "") {
-        errors.mypassword = "Password field can not be empty";
-      }
-      if (password1 != password2) {
-        errors.mypassword2 = "Passwords do not match";
-      }
-
+      errors.mypassword = "Please enter a password";
+    }
+    if (password1 != password2) {
+      errors.mypassword2 = "Passwords do not match";
+    }
+  
       let age = false;
       let agree = document.getElementById('agree').checked;
     if ( !agree ){
@@ -54,13 +76,11 @@ forRegistration.addEventListener('submit', function(event){
       for (let item in errors) {
 
         let spanError = document.getElementById("error_" + item);
-    
-        if (spanError) {
 
+        if (spanError) {
           spanError.innerText = errors[item];
         }
       }
-
   if (Object.keys(errors).length == 0) {
     form.submit();
   }
@@ -95,11 +115,15 @@ if (emailValue.match(emailPattern)) {
     emailfield.style.border = "2px solid green";
   } else {
     spanErorr.innerText = "Your Email is Invalid";
-    spanErorr.style.color = "red";
-    emailfield.style.border = "2px solid red";
+    spanErorr.style.color = "brown";
+    emailfield.style.border = "2px solid brown";
   }
   if (emailValue == "") {
     spanErorr.innerText = " ";
   }
 });
+
+
+
+
 
